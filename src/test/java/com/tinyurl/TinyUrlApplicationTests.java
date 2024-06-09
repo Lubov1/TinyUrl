@@ -2,7 +2,6 @@ package com.tinyurl;
 
 import com.tinyurl.repository.UrlsRepository;
 import com.tinyurl.repository.UrlsService;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
