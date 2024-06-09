@@ -1,4 +1,4 @@
-package com.example.tinyurl;
+package com.tinyurl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.servlet.http.HttpServletRequest;
