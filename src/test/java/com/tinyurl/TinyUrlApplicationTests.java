@@ -1,5 +1,8 @@
 package com.tinyurl;
 
+import com.tinyurl.repository.UrlsRepository;
+import com.tinyurl.repository.UrlsService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,6 +25,9 @@ class TinyUrlApplicationTests {
 	@MockBean
 	public UrlsService urlsService;
 
+	@MockBean
+	public UrlsRepository urlsRepository;
+
 	@Test
 	void testNotFound() throws Exception {
 		mockMvc.perform(post("/tinyurl/74805").accept(MediaType.APPLICATION_JSON)
@@ -33,7 +39,7 @@ class TinyUrlApplicationTests {
 	void testCreated() throws Exception {
 		String url = "https://www.youtube.com/";
 		String tinyUrl = "12345";
-		when(urlsService.getTinyUrl(eq(url))).thenReturn(tinyUrl);
+		when(urlsService.createTinyUrl(eq(url))).thenReturn(tinyUrl);
 
 		mockMvc.perform(post("/tinyurl/").accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)

@@ -1,6 +1,7 @@
-package com.tinyurl;
+package com.tinyurl.web;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.tinyurl.repository.UrlsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +14,17 @@ import java.io.IOException;
 
 @RestController
 public class Controller {
-    @Autowired UrlsService urlsService;
-    RestTemplate restTemplate = new RestTemplate();
+    private final UrlsService urlsService;
+
+    @Autowired
+    public Controller( UrlsService urlsService) {
+        this.urlsService = urlsService;
+    }
 
     @PostMapping(value="/tinyurl/", consumes = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<String> register(@RequestBody JsonNode jsonNode){
         String longUrl = jsonNode.get("url").asText();
-        String tinyUrl = urlsService.getTinyUrl(longUrl);
-        urlsService.put(tinyUrl, longUrl);
+        String tinyUrl = urlsService.createTinyUrl(longUrl);
         return new ResponseEntity<>(String.format("{\"tinyUrl\":\"%s\"}",tinyUrl), HttpStatusCode.valueOf(200));
     }
 
@@ -34,6 +38,7 @@ public class Controller {
         }
         response.sendRedirect(longUrl);
     }
+
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<String> exceptionHandler(Exception exception) {
